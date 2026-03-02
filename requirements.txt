@@ -1,0 +1,7 @@
+anthropic
+pandas
+tqdm
+python-dotenv
+scikit-learn
+xgboost
+sentence-transformers
