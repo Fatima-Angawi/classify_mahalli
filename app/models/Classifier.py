@@ -121,25 +121,30 @@ class TextClassifier:
         else:
             return "CLEAR"
     
-    def predict(self, texts: list[str]) -> np.ndarray:
-        self.model.eval()
-
-        all_lengths = [len(self.tokenizer.encode(t)) for t in texts]
-        max_len = min(int(np.mean(all_lengths) + 2*np.std(all_lengths)), 512)
-
+    def predict(self, texts: list[str], batch_size: int = 32) -> np.ndarray:
+    self.model.eval()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    self.model.to(device)
+    
+    all_probs = []
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
         inputs = self.tokenizer(
-        texts,
-        padding=True,
-        truncation=True,
-        max_length=max_len,
-        return_tensors="pt",
-     ).to(self.model.device)
-
+            batch,
+            padding=True,
+            truncation=True,
+            max_length=512,
+            return_tensors="pt"
+        ).to(device)
+        
         with torch.no_grad():
-           outputs = self.model(**inputs)
-           probs   = torch.softmax(outputs.logits, dim=-1)[:, 1].cpu().numpy()
-
-        return probs
+            outputs = self.model(**inputs)
+            probs = torch.softmax(outputs.logits, dim=-1)[:, 1].cpu().numpy()
+        
+        all_probs.append(probs)
+        torch.cuda.empty_cache()  # ← important
+    
+    return np.concatenate(all_probs)
 
 
 
