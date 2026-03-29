@@ -5,3 +5,8 @@ python-dotenv
 scikit-learn
 xgboost
 sentence-transformers
+matplotlib
+transformers
+arabert
+datasets
+torch

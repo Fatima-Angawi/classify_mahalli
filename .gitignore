@@ -1,0 +1,38 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data files (datasets, large files)
+data/
+*.csv
+*.tsv
+*.json
+*.h5
+*.npz
+*.pickle
+*.pth  # PyTorch model weights
+*.ckpt # TensorFlow / PyTorch checkpoints
+
+# Artifacts / outputs / logs
+artifacts/
+outputs/
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Colab
+.ipynb_checkpoints/
