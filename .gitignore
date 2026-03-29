@@ -13,16 +13,16 @@ ENV/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Data files (datasets, large files)
-data/
-*.csv
+# Data files (large files - exclude by default)
 *.tsv
-*.json
 *.h5
 *.npz
 *.pickle
-*.pth  # PyTorch model weights
-*.ckpt # TensorFlow / PyTorch checkpoints
+*.pth
+*.ckpt
+
+# Allow specific data files
+!data/combined_data_final.csv
 
 # Artifacts / outputs / logs
 artifacts/
@@ -33,6 +33,3 @@ logs/
 # OS-specific files
 .DS_Store
 Thumbs.db
-
-# Colab
-.ipynb_checkpoints/

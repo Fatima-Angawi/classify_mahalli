@@ -9,7 +9,7 @@ from sklearn.utils.class_weight import compute_class_weight
 
 from app.models.evaluator import evaluate_tc, find_best_threshold_tc
 # ── Load ──────────────────────────────────────────────────
-df = load_dataset("data/combined_data_final.csv")
+df = load_dataset("data/data_final.csv")
 
 train_df, val_df, test_df = split_df(df)
 
