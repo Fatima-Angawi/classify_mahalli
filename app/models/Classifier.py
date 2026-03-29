@@ -120,34 +120,31 @@ class TextClassifier:
             return "HUMAN_REVIEW"
         else:
             return "CLEAR"
-    
+            
     def predict(self, texts: list[str], batch_size: int = 32) -> np.ndarray:
-    self.model.eval()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    self.model.to(device)
-    
-    all_probs = []
-    for i in range(0, len(texts), batch_size):
-        batch = texts[i:i + batch_size]
-        inputs = self.tokenizer(
-            batch,
-            padding=True,
-            truncation=True,
-            max_length=512,
-            return_tensors="pt"
-        ).to(device)
+        self.model.eval()
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model.to(device)
         
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            probs = torch.softmax(outputs.logits, dim=-1)[:, 1].cpu().numpy()
+        all_probs = []
+        for i in range(0, len(texts), batch_size):
+            batch = texts[i:i + batch_size]
+            inputs = self.tokenizer(
+                batch,
+                padding=True,
+                truncation=True,
+                max_length=512,
+                return_tensors="pt"
+            ).to(device)
+            
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                probs = torch.softmax(outputs.logits, dim=-1)[:, 1].cpu().numpy()
+            
+            all_probs.append(probs)
+            torch.cuda.empty_cache()
         
-        all_probs.append(probs)
-        torch.cuda.empty_cache()  # ← important
-    
-    return np.concatenate(all_probs)
-
-
-
+        return np.concatenate(all_probs)
 
     # ── 4. Save / Load ────────────────────────────────────
     def save(self, path: str = "artifacts/AraBERT"):
