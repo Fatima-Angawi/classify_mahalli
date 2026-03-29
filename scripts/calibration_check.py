@@ -3,6 +3,14 @@ Plots a reliability diagram for the XGBoost scam detector.
 Run from project root: python calibration_check.py
 """
 
+import os
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,7 +21,7 @@ from sklearn.metrics import brier_score_loss
 from app.data.loader import load_dataset
 from app.data.split import split_df
 from app.embeddings.embedder import Embedder
-from app.models.predictor import Predictor
+from app.inference.predictor import Predictor
 
 
 # ── Load model & data ─────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-class predictor:
+class Predictor:
     def __init__(self, model, tokenizer, threshold):
         self.model     = model
         self.tokenizer = tokenizer

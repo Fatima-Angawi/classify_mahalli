@@ -1,9 +1,17 @@
+import os
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import numpy as np
 import torch
+
 from app.data.loader import load_dataset
 from app.models.Classifier import TextClassifier
 from app.data.split import split_df
-import os
 os.environ["PYTHONUTF8"] = "1"
 from sklearn.utils.class_weight import compute_class_weight
 
