@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path
-
+import gc
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -38,6 +38,8 @@ class_weights_tensor = torch.tensor(weights, dtype=torch.float)
 # Fine-tune
 Text_Classifier.fine_tune(train_df, val_df, class_weights_tensor)
 
+gc.collect()
+torch.cuda.empty_cache()
 # evaluate
 threshold = find_best_threshold_tc(Text_Classifier, val_df["text"].tolist(), val_df["label"].values)
 evaluate_tc(Text_Classifier, test_df["text"].tolist(), test_df["label"].values, threshold=threshold, name="Test")
