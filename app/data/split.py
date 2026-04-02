@@ -1,3 +1,7 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from config import RANDOM_STATE, TEST_SIZE, VAL_SIZE
+
 def split_df(df: pd.DataFrame):
     """
     Split dataset into train/val/test without using timestamps.
