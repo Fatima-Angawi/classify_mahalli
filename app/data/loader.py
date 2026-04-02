@@ -1,5 +1,12 @@
 REQUIRED_COLUMNS = ["text", "label"]
+from pathlib import Path
+import pandas as pd
 
+# يجيب مسار المجلد الحالي اللي فيه الملف
+base_path = Path(__file__).resolve().parent.parent / "data"
+file_path = base_path / "mahalli_combined_text.csv"
+
+df = pd.read_csv(file_path)
 from bs4 import BeautifulSoup
 import pandas as pd
 def load_dataset(path: str) -> pd.DataFrame:
