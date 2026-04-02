@@ -1,5 +1,6 @@
 REQUIRED_COLUMNS = ["text", "label"]
 
+from bs4 import BeautifulSoup
 import pandas as pd
 def load_dataset(path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
@@ -17,9 +18,12 @@ def load_dataset(path: str) -> pd.DataFrame:
             print(f"Warning: {missing} null values in '{col}' — filling with empty string")
         df[col] = df[col].fillna("")
 
+        
+
     # ── Parse date if exists ───────────────────────────────────
     if "updated_date" in df.columns:
         df["updated_date"] = pd.to_datetime(df["updated_date"], errors="coerce")
+
 
     # ── Remove conflicting labels & duplicates ─────────────────
     conflict = df.groupby("text")["label"].nunique()

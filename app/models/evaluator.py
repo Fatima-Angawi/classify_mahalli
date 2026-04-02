@@ -1,9 +1,9 @@
 import numpy as np
-from sklearn.metrics import classification_report, roc_auc_score, precision_recall_curve
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, precision_recall_curve
 
 def find_best_threshold_tc(model, texts_val, y_val, min_recall=0.8):
     y_proba = model.predict(texts_val)  # probabilities from TextClassifier
-    from sklearn.metrics import precision_recall_curve
+
 
     precisions, recalls, thresholds = precision_recall_curve(y_val, y_proba)
     mask = recalls[:-1] >= min_recall
@@ -14,14 +14,26 @@ def find_best_threshold_tc(model, texts_val, y_val, min_recall=0.8):
     return thresholds[mask][best_idx]
 
 def evaluate_tc(model, texts, y_true, threshold, name="Test"):
-    y_proba = model.predict(texts)
-    #make sure model.predict returns probabilities
-    y_pred  = (y_proba >= threshold).astype(int)
-    auc     = roc_auc_score(y_true, y_proba)
-
+    # Predict probabilities
+    y_proba = model.predict(texts)  # ensure this returns probabilities
+    # Convert probabilities to binary predictions using the threshold
+    y_pred = (y_proba >= threshold).astype(int)
+    
+    # Compute AUC-ROC
+    auc = roc_auc_score(y_true, y_proba)
+    
+    # Print header
     print(f"\n{'='*45}")
     print(f"{name} Set — AUC-ROC: {auc:.4f} | Threshold: {threshold:.4f}")
+    
+    # Print classification report (precision, recall, F1)
+    print("\nClassification Report:")
     print(classification_report(y_true, y_pred, target_names=['Legal', 'Scam']))
+    
+    # Print confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+    print("Confusion Matrix:")
+    print(cm)
 
 """
 def find_best_threshold(model, X_val, y_val, min_recall=0.8):
