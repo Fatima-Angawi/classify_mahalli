@@ -1,20 +1,7 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from config import RANDOM_STATE, TEST_SIZE, VAL_SIZE
-
-def temporal_split(df, test_size, val_size):
-    """
-    Dummy temporal split (preserve name for compatibility)
-    Actually does stratified split without using dates
-    """
-    # مجرد placeholder، لنستخدم stratified split في split_df
-    return df, df, df  # لن يُستخدم فعلياً
-
 def split_df(df: pd.DataFrame):
     """
     Split dataset into train/val/test without using timestamps.
     Stratified split is used to preserve class distribution.
-    Keeps the function name same for compatibility.
     """
 
     # Separate features by label
@@ -54,7 +41,7 @@ def split_df(df: pd.DataFrame):
     val_df   = pd.concat([legal_val, scam_val]).reset_index(drop=True)
     test_df  = pd.concat([legal_test, scam_test]).reset_index(drop=True)
 
-    # Sanity check: print class distribution
+    # Print class distribution
     print("\nSplit distribution (No date):")
     for name, split in [("Train", train_df), ("Val", val_df), ("Test", test_df)]:
         legal_count = (split["label"] == 0).sum()
