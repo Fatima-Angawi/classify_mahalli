@@ -5,6 +5,8 @@ import gc
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+    
+from google.colab import drive
 
 import numpy as np
 import torch
@@ -47,6 +49,9 @@ evaluate_tc(Text_Classifier, test_df["text"].tolist(), test_df["label"].values, 
 #Text_Classifier.set_threshold(threshold)
 #preds, probs, tiers = Text_Classifier.predict_with_tier(test_df["text"].tolist())
 # save model
+
+drive.mount('/content/drive')
+Text_Classifier.save("/content/drive/MyDrive/classify_mahalli/artifacts/AraBERT")
 Text_Classifier.save("artifacts/AraBERT")
 
 
