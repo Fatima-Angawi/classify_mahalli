@@ -5,6 +5,7 @@ import gc
 ROOT = Path("/content/classify_mahalli")
     
 from google.colab import drive
+import json
 
 import numpy as np
 import torch
@@ -50,7 +51,11 @@ evaluate_tc(Text_Classifier, test_df["text"].tolist(), test_df["label"].values, 
 
 drive.mount('/content/drive')
 Text_Classifier.save("/content/drive/MyDrive/classify_mahalli/artifacts/AraBERT")
-Text_Classifier.save("artifacts/AraBERT")
+
+with open("/content/drive/MyDrive/classify_mahalli/artifacts/threshold.json", "w") as f:
+    json.dump({"threshold": float(threshold)}, f)
+
+#Text_Classifier.save("artifacts/AraBERT")
 
 
 """
