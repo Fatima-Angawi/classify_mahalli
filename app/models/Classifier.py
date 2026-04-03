@@ -107,8 +107,6 @@ class TextClassifier:
             callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
         ).train()
 
-    def set_threshold(self, threshold: float):
-    self.threshold = threshold
 
     def predict_with_tier(self, texts: list[str]):
         probs = self.predict(texts)  # تستخدم predict الموجود
