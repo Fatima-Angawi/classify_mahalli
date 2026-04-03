@@ -6,7 +6,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
     
-from google.colab import drive
 import json
 
 import numpy as np
@@ -51,11 +50,6 @@ evaluate_tc(Text_Classifier, test_df["text"].tolist(), test_df["label"].values, 
 #preds, probs, tiers = Text_Classifier.predict_with_tier(test_df["text"].tolist())
 # save model
 
-drive.mount('/content/drive')
-Text_Classifier.save("/content/drive/MyDrive/classify_mahalli/artifacts/AraBERT")
-
-with open("/content/drive/MyDrive/classify_mahalli/artifacts/threshold.json", "w") as f:
-    json.dump({"threshold": float(threshold)}, f)
 
 #Text_Classifier.save("artifacts/AraBERT")
 
